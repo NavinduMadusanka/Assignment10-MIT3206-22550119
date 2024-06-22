@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Assignment10-MIT3206-22550119</string>
+    <string name="map_key" translatable="false">Enter your google API key here</string>
+</resources>
