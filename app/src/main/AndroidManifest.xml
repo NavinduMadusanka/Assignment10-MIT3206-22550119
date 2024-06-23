@@ -10,6 +10,10 @@
     <uses-feature android:name="android.hardware.touchscreen" />
     <uses-feature android:name="android.hardware.touchscreen.multitouch" />
     <uses-feature android:name="android.hardware.touchscreen.multitouch.stylus" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission
         android:name="android.permission.CAMERA" />
 
