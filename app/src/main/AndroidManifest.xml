@@ -3,19 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.assignment10_mit3206_22550119">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-feature android:name="android.hardware.touchscreen" />
-    <uses-feature android:name="android.hardware.touchscreen.multitouch" />
-    <uses-feature android:name="android.hardware.touchscreen.multitouch.stylus" />
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+        android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET"
+        tools:ignore="ProtectedPermissions" />
+
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-
-    <uses-permission
-        android:name="android.permission.CAMERA" />
+        android:required="true" />
+    <uses-feature android:name="android.hardware.touchscreen" />
+    <uses-feature android:name="android.hardware.touchscreen.multitouch" />
+    <uses-feature android:name="android.hardware.touchscreen.multitouch.raw" />
+    <uses-feature android:name="android.hardware.touchscreen.multitouch.stylus" />
+    <uses-feature android:name="android.hardware.touchscreen.multitouch.stylus.raw" />
+    <uses-feature android:name="android.hardware.touchscreen.stylus" />
+    <uses-feature android:name="android.hardware.touchscreen.stylus.raw" />
+    <uses-feature android:name="android.hardware.touchscreen.stylus.stylus" />
 
     <application
         android:allowBackup="true"
