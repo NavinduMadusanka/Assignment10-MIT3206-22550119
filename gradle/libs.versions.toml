@@ -10,6 +10,7 @@ constraintlayout = "2.1.4"
 playServicesMaps = "19.0.0"
 playServicesLocation = "21.3.0"
 icu4j = "70.1"
+places = "3.5.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -22,6 +23,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 icu4j = { group = "androidx.icu", name = "icu4j", version.ref = "icu4j" }
+places = { group = "com.google.android.libraries.places", name = "places", version.ref = "places" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

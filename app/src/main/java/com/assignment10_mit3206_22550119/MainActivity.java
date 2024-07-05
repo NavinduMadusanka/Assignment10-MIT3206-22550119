@@ -2,8 +2,12 @@ package com.assignment10_mit3206_22550119;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,26 +26,56 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.List;
+
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
-    private GoogleMap googleMap;
+    private GoogleMap mMap;
     private EditText searchEditText;
+    private Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        searchEditText = findViewById(R.id.search_edit_text);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLocation();
+
+        searchEditText = findViewById(R.id.search_edit_text);
+        searchButton = findViewById(R.id.search_button);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String searchQuery = searchEditText.getText().toString();
+                Geocoder geocoder = new Geocoder(MainActivity.this);
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocationName(searchQuery, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (addresses != null && addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(searchQuery);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                    mMap.addMarker(markerOptions);
+                } else {
+                    Toast.makeText(MainActivity.this, "Location not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void fetchLocation() {
         if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
@@ -49,11 +83,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null) {
+                if (location!= null) {
                     currentLocation = location;
                     Toast.makeText(getApplicationContext(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-                    assert supportMapFragment != null;
+                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.myMap);
+                    assert supportMapFragment!= null;
                     supportMapFragment.getMapAsync(MainActivity.this);
                 }
             }
@@ -62,30 +96,22 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
+        mMap = googleMap;
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Hi..! I am here..!");
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
-        googleMap.addMarker(markerOptions);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        mMap.addMarker(markerOptions);
 
-        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
-            String searchQuery = searchEditText.getText().toString();
-            if (!searchQuery.isEmpty()) {
-                searchOnMap(searchQuery);
+        // Add a search bar to search for locations
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                // Create a search dialog to search for locations
+                // SearchDialog searchDialog = new SearchDialog(MainActivity.this, mMap);
+                // searchDialog.show();
             }
-            return true;
         });
-    }
-
-    private void searchOnMap(String searchQuery) {
-        // Use Google Places API to search for the location
-        // For simplicity, I'm using a hardcoded LatLng, but you should use the Places API to get the correct LatLng
-        LatLng searchLatLng = new LatLng(37.7749, -122.4194); // Replace with the actual search result
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(searchLatLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(searchLatLng, 12));
-        MarkerOptions markerOptions = new MarkerOptions().position(searchLatLng).title(searchQuery);
-        googleMap.addMarker(markerOptions);
     }
 
     @Override
