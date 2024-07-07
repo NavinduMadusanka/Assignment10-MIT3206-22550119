@@ -66,7 +66,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
                     mMap.addMarker(markerOptions);
                 } else {
-                    Toast.makeText(MainActivity.this, "Location not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Location is not Found", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,7 +98,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Hi..! I am here..!");
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Hi..! I am Here..!");
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         mMap.addMarker(markerOptions);
