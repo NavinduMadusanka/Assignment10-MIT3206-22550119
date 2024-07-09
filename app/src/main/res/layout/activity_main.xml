@@ -13,6 +13,7 @@
             android:id="@+id/search_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:hint="Search for a Location" />
 
@@ -20,6 +21,7 @@
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Search" />
 
     </LinearLayout>
@@ -28,6 +30,7 @@
         android:id="@+id/myMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
+        android:textStyle="bold"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
