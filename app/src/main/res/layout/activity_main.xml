@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Search for a location" />
+            android:hint="Search for a Location" />
 
         <Button
             android:id="@+id/search_button"
