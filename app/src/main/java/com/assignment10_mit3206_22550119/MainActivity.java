@@ -100,8 +100,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        String title = "Hi..! I am Here..! - ";
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Hi..! I am Here..!");
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         mMap.addMarker(markerOptions);
