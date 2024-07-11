@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -52,11 +53,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 String searchQuery = searchEditText.getText().toString();
                 Geocoder geocoder = new Geocoder(MainActivity.this);
-                List<Address> addresses = null;
+                List<Address> addresses;
                 try {
                     addresses = geocoder.getFromLocationName(searchQuery, 1);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    addresses = Collections.emptyList(); // or some other default value
                 }
                 if (addresses != null && addresses.size() > 0) {
                     Address address = addresses.get(0);
@@ -98,7 +100,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Hi..! I am Here..!");
+        String title = "Hi..! I am Here..! - ";
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         mMap.addMarker(markerOptions);
